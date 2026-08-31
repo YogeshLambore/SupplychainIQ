@@ -1,0 +1,10 @@
+streamlit==1.38.0
+pandas
+matplotlib
+pymupdf
+pillow
+psutil
+scikit-learn
+sentence-transformers
+numpy
+requests

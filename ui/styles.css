@@ -1,0 +1,250 @@
+/* NEXORA Custom Streamlit CSS - Premium AI Studio Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Color Variables */
+:root {
+    --bg-primary: #0E0F12;
+    --bg-secondary: #131519;
+    --bg-card: #1A1C22;
+    --bg-card-hover: #23262D;
+    --border-subtle: #2B2E36;
+    --border-active: #3E4350;
+    --accent-primary: #A78BFA; /* Premium subtle purple/blue AI accent */
+    --text-primary: #F3F4F6;
+    --text-muted: #9CA3AF;
+    --text-subtle: #6B7280;
+    --warning-amber: #F59E0B;
+    --error-red: #EF4444;
+    --success-green: #10B981;
+}
+
+/* Global Typography & Background */
+.stApp {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Base Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background-color: var(--bg-secondary) !important;
+    border-right: 1px solid var(--border-subtle);
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--text-muted);
+}
+
+[data-testid="stSidebar"] h1, 
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3 {
+    color: var(--text-primary) !important;
+}
+
+/* Radio buttons in sidebar (Navigation) */
+div[role="radiogroup"] {
+    gap: 4px;
+}
+div[role="radiogroup"] > label {
+    background-color: transparent;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+}
+div[role="radiogroup"] > label:hover {
+    background-color: var(--bg-card);
+}
+div[role="radiogroup"] > label[data-baseweb="radio"] div {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+}
+div[role="radiogroup"] > label[aria-checked="true"] {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+}
+div[role="radiogroup"] > label[aria-checked="true"] div {
+    color: var(--accent-primary) !important;
+}
+
+/* Main Workspace Centering */
+.block-container {
+    max-width: 950px !important;
+    padding-top: 3rem !important;
+    padding-bottom: 8rem !important; 
+}
+
+/* Premium Cards / Containers */
+.nexora-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.nexora-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+}
+
+/* Expanders */
+[data-testid="stExpander"] {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+[data-testid="stExpander"] > div[role="button"] {
+    background-color: transparent !important;
+    padding: 16px 20px;
+}
+[data-testid="stExpander"] > div[role="button"]:hover {
+    background-color: var(--bg-card-hover) !important;
+}
+
+/* Chat Messages */
+.stChatMessage {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 1.5rem 0 !important;
+}
+.stChatMessage[data-testid="stChatMessage"]:nth-child(even) {
+    background-color: var(--bg-card) !important;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle) !important;
+    padding: 1.5rem !important;
+}
+
+/* Floating Chat Input */
+[data-testid="stChatInput"] {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 20px !important;
+    padding: 8px;
+    transition: border-color 0.2s ease;
+}
+
+[data-testid="stChatInput"]:focus-within {
+    border-color: var(--accent-primary) !important;
+}
+
+[data-testid="stChatInput"] textarea {
+    color: var(--text-primary) !important;
+    font-size: 1rem;
+}
+
+/* Status Indicators */
+.status-green { color: var(--success-green); font-weight: 500; }
+.status-amber { color: var(--warning-amber); font-weight: 500; }
+.status-red { color: var(--error-red); font-weight: 500; }
+.status-muted { color: var(--text-muted); font-weight: 500; }
+
+/* Status Pills */
+.status-pill {
+    background-color: rgba(167, 139, 250, 0.1);
+    color: var(--accent-primary);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    text-transform: uppercase;
+}
+
+/* Monospace for Technical Details */
+code, .trace-log, .tech-mono {
+    font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+code {
+    background-color: var(--bg-card-hover) !important;
+    color: var(--text-primary) !important;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    border: 1px solid var(--border-subtle);
+}
+
+.trace-log {
+    background-color: var(--bg-card) !important;
+    color: var(--text-muted) !important;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85em;
+}
+
+/* Video Styling */
+[data-testid="stVideo"] {
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+}
+
+/* Primary Buttons */
+.stButton>button {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.stButton>button:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-active);
+    color: var(--accent-primary);
+}
+
+/* File Uploader styling */
+[data-testid="stFileUploader"] {
+    background-color: var(--bg-card);
+    border: 1px dashed var(--border-subtle);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.2s ease;
+}
+[data-testid="stFileUploader"]:hover {
+    border-color: var(--accent-primary);
+    background-color: var(--bg-card-hover);
+}
+
+/* Metrics */
+[data-testid="stMetricValue"] {
+    color: var(--text-primary) !important;
+    font-size: 2rem !important;
+    font-weight: 500 !important;
+}
+[data-testid="stMetricLabel"] {
+    color: var(--text-muted) !important;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+}
