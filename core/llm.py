@@ -1,7 +1,9 @@
 import os
+import re
 import requests
 import json
 from pathlib import Path
+from typing import Optional
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_URL = f"{OLLAMA_HOST}/api/generate"
@@ -28,7 +30,6 @@ class LLMManager:
         return False
         
     def get_status(self):
-        self.is_loaded = self.check_health()
         return "READY" if self.is_loaded else "FALLBACK"
         
     def route_task(self, query: str, default_category: str) -> str:
@@ -37,7 +38,67 @@ class LLMManager:
             return "GENERAL"
         return default_category
         
-    def generate(self, prompt: str, context: str = None, default_category: str = "DOCUMENT") -> str:
+    def generate_viz_plan(self, query: str, schema_context: str) -> Optional[dict]:
+        """
+        Calls Llama to convert a natural-language visualization request into a
+        structured JSON plan. Returns a dict or None if Llama is unavailable or
+        the response cannot be parsed as valid JSON.
+        All numeric calculations remain with Pandas — Llama only identifies intent.
+        """
+        import json
+        try:
+            self.is_loaded = self.check_health()
+            if not self.is_loaded:
+                return None
+
+            prompt = (
+                "You are a data visualization intent classifier. "
+                "Given a dataset schema and a user request, output ONLY a valid JSON object "
+                "with these exact keys (no extra text, no markdown, no explanation):\n"
+                "{\n"
+                '  "chart_type": "<bar|hbar|grouped_bar|stacked_bar|line|time_series|area|cumulative|'
+                'moving_avg|pie|donut|histogram|scatter|box|corr_heatmap|heatmap|count|pareto|funnel|top_n|ranking>",\n'
+                '  "x_column": "<exact column name or null>",\n'
+                '  "y_column": "<exact column name or null>",\n'
+                '  "aggregation": "<sum|mean|count|median|min|max|std>",\n'
+                '  "group_by": "<column name or null>",\n'
+                '  "filter_column": "<column name or null>",\n'
+                '  "filter_operator": "<year_eq|eq|gte|lte|gt|lt|contains or null>",\n'
+                '  "filter_value": "<value or null>",\n'
+                '  "sort": "<ascending|descending|none>",\n'
+                '  "top_n": <integer or null>,\n'
+                '  "title": "<concise chart title>"\n'
+                "}\n\n"
+                f"Dataset schema:\n{schema_context}\n\n"
+                f"User request: {query}\n\n"
+                "Output ONLY the JSON object:"
+            )
+
+            payload = {
+                "model": self.model_name,
+                "prompt": prompt,
+                "stream": False,
+                "options": {"temperature": 0.0, "num_predict": 400}
+            }
+            response = requests.post(OLLAMA_URL, json=payload, timeout=60)
+            if response.status_code != 200:
+                return None
+
+            raw = response.json().get("response", "").strip()
+            # Extract JSON block
+            m = re.search(r"\{.*\}", raw, re.DOTALL)
+            if not m:
+                return None
+            plan = json.loads(m.group(0))
+            # Basic sanity: must have chart_type
+            if "chart_type" not in plan:
+                return None
+            return plan
+        except Exception:
+            return None
+
+    def generate(self, prompt: str, context: str = None, default_category: str = "DOCUMENT", history: list = None) -> str:
+
         """Generates an answer based on prompt and context using Ollama, or falls back."""
         self.is_loaded = self.check_health()
         
@@ -45,24 +106,42 @@ class LLMManager:
         
         if self.is_loaded:
             try:
-                system_prompt = (
-                    "You are the local language model used by NEXORA. "
-                    "NEXORA is an offline/on-premise AI workbench for confidential industrial work. "
-                    "It uses local open-weight AI models and supports controlled workflows. "
-                    "Follow only the provided context. Do not invent facts. "
-                    "Do not claim unavailable information. Explain clearly and concisely. "
-                    "Do not create fictional company deployments. Do not guess."
-                )
+                if category == "GENERAL":
+                    system_prompt = (
+                        "You are the local language model used by NEXORA. "
+                        "You are a helpful, professional, general-purpose local AI conversation interface and coding assistant. "
+                        "You can answer general questions, write complex Python code, and analyze provided context. "
+                        "When providing code, ALWAYS wrap it in markdown code blocks."
+                    )
+                else:
+                    system_prompt = (
+                        "You are the local language model used by NEXORA. "
+                        "NEXORA is an offline/on-premise AI workbench for confidential industrial work. "
+                        "It uses local open-weight AI models and supports controlled workflows. "
+                        "Follow only the provided context. Do not invent facts. "
+                        "Do not claim unavailable information. Explain clearly and concisely. "
+                        "Do not create fictional company deployments. Do not guess."
+                    )
                 
                 full_prompt = f"SYSTEM INSTRUCTIONS\n{system_prompt}\n\n"
                 
                 if category == "GENERAL":
                     full_prompt += "CONTEXT\nNEXORA is a sovereign on-premise agentic AI workbench. It processes documents, data, and engineering files securely and locally without external APIs.\n\n"
-                elif context:
+                
+                if context:
                     full_prompt += f"SOURCE CONTEXT\n{context}\n\n"
                     
+                if history:
+                    full_prompt += "CONVERSATION HISTORY\n"
+                    for msg in history:
+                        role_str = "User" if msg.get("role") == "user" else "Assistant"
+                        full_prompt += f"{role_str}: {msg.get('content')}\n"
+                    full_prompt += "\n"
+                    
                 full_prompt += f"USER QUESTION\n{prompt}\n\n"
-                full_prompt += "RESPONSE REQUIREMENTS\nAnswer using only the available information. If information is missing, you MUST say exactly: 'I could not find this information in the available data.' Do NOT guess.\n"
+                
+                if category != "GENERAL":
+                    full_prompt += "RESPONSE REQUIREMENTS\nAnswer using only the available information. If information is missing, you MUST say exactly: 'I could not find this information in the available data.' Do NOT guess.\n"
                 
                 payload = {
                     "model": self.model_name,
