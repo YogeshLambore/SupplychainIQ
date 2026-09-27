@@ -1,5 +1,11 @@
 # NEXORA
 
+**Live Demo:** <FINAL_PUBLIC_URL>
+**GitHub:** <REPOSITORY_URL>
+**Demo Video:** <VIDEO_URL>
+**Documentation:** <DOCUMENTATION_URL>
+# NEXORA
+
 **Sovereign on-premise agentic AI workbench for confidential industrial work.**
 
 NEXORA is a fully local, offline AI intelligence workbench designed for engineering, finance, and document analysis. It successfully bridges the gap between natural language AI interactions and deterministic data analysis without relying on any external cloud APIs.
@@ -59,3 +65,4 @@ To enable the AI capabilities in the cloud, you must:
 2. OR, replace the Ollama integration with a cloud API for demonstration purposes.
 
 If `OLLAMA_HOST` is unreachable, NEXORA will gracefully degrade to its **Fallback Behavior**, utilizing deterministic text extraction and Pandas math without LLM explanations, ensuring the app remains usable.
+
