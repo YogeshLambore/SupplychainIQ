@@ -62,6 +62,9 @@ if "current_session_id" not in st.session_state:
     st.session_state.current_session_id = None
 if "nav_selection" not in st.session_state:
     st.session_state.nav_selection = "Home"
+if "selected_chat_model" not in st.session_state:
+    st.session_state["selected_chat_model"] = "qwen3.5:4b"  # Default: Fast
+
 
 # UI Setup
 from utils.icons import ICONS
@@ -395,23 +398,136 @@ if page == "Home":
 
 
 elif page == "General Chat":
+    # ── Model Config ──────────────────────────────────────────────────────────
+    CHAT_MODEL_LABELS = {
+        "qwen3.5:4b":       ("⚡", "Fast",          "Qwen3.5 4B",          "General questions and quick answers"),
+        "qwen2.5-coder:3b": ("👨‍💻", "Coding",        "Qwen2.5-Coder 3B",    "Programming and software engineering"),
+        "llama3:8b":        ("🧠", "Deep Reasoning", "Llama 3 8B",          "Complex reasoning and detailed analysis"),
+    }
+    # ── Model selector CSS (injected once, scoped to this page) ─────────────
+    st.markdown("""
+    <style>
+    /* ── Model selector bar ─────────────────────────────────────────────── */
+    .nx-model-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+    }
+    .nx-model-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: transparent;
+        color: #9AA0A6;
+        font-family: 'Google Sans', 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+    }
+    .nx-model-btn:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.20);
+        color: #E8EAED;
+    }
+    .nx-model-btn.nx-active {
+        background: rgba(138,43,226,0.15);
+        border-color: rgba(138,43,226,0.55);
+        color: #C4B5FD;
+        font-weight: 600;
+    }
+    /* Subtle model attribution under assistant messages */
+    .nx-msg-model {
+        font-family: 'Google Sans', 'Inter', sans-serif;
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 6px;
+        font-weight: 500;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ── Page header ──────────────────────────────────────────────────────────
+    selected_model_id = st.session_state.get("selected_chat_model", "qwen3.5:4b")
+    sel_icon, sel_mode, sel_label, sel_desc = CHAT_MODEL_LABELS.get(
+        selected_model_id,
+        ("⚡", "Fast", "Qwen3.5 4B", "General questions and quick answers")
+    )
     st.markdown(f"""
-        <div style='margin-bottom: 24px;'>
-            <div style='display: flex; align-items: center; gap: 12px; margin-bottom: 8px;'>
+        <div style='margin-bottom: 16px;'>
+            <div style='display: flex; align-items: center; gap: 12px; margin-bottom: 6px;'>
                 <div style='color: var(--accent-primary); width: 28px; height: 28px;'>{ICONS['chat']}</div>
                 <h2 style='margin: 0; font-weight: 600; font-size: 1.75rem; letter-spacing: -0.02em;'>General Chat</h2>
             </div>
-            <p style='color: var(--text-muted); font-size: 1.05rem; margin: 0;'>Local Llama 3 8B • Offline</p>
+            <p style='color: var(--text-muted); font-size: 0.95rem; margin: 0;'>Local AI • Fully Offline • No External APIs</p>
         </div>
     """, unsafe_allow_html=True)
-    
+
+    # ── Model selector row ───────────────────────────────────────────────────
+    st.markdown("<p style='color: var(--text-subtle); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;'>Select Model</p>", unsafe_allow_html=True)
+
+    _model_options = [
+        ("qwen3.5:4b",       "⚡",  "Fast",           "Qwen3.5 4B"),
+        ("qwen2.5-coder:3b", "👨‍💻", "Coding",          "Qwen2.5-Coder 3B"),
+        ("llama3:8b",        "🧠",  "Deep Reasoning",  "Llama 3 8B"),
+    ]
+    _btn_cols = st.columns([1.1, 1.4, 1.6, 3], gap="small")
+    for col, (mid, icon, label, model_name) in zip(_btn_cols[:3], _model_options):
+        with col:
+            is_active = (mid == selected_model_id)
+            btn_style = (
+                "background:rgba(138,43,226,0.15);border:1px solid rgba(138,43,226,0.55);color:#C4B5FD;font-weight:600;"
+                if is_active else
+                "background:transparent;border:1px solid rgba(255,255,255,0.10);color:#9AA0A6;"
+            )
+            # Use st.button for real interaction; style with HTML wrapper
+            if st.button(
+                f"{icon}  {label}",
+                key=f"model_btn_{mid}",
+                use_container_width=True,
+                type="primary" if is_active else "secondary",
+            ):
+                st.session_state["selected_chat_model"] = mid
+                st.rerun()
+
+    # Refresh after possible selection change
+    selected_model_id = st.session_state.get("selected_chat_model", "qwen3.5:4b")
+    sel_icon, sel_mode, sel_label, sel_desc = CHAT_MODEL_LABELS.get(
+        selected_model_id,
+        ("⚡", "Fast", "Qwen3.5 4B", "General questions and quick answers")
+    )
+
+    st.markdown(
+        f"<p style='font-size:0.82rem; color:#9AA0A6; margin:4px 0 20px 0;'>"
+        f"{sel_icon} <b style='color:#C4C7C5;'>{sel_label}</b> &nbsp;·&nbsp; {sel_desc}"
+        f"</p>",
+        unsafe_allow_html=True
+    )
+
+    # ── Chat history ─────────────────────────────────────────────────────────
     st.markdown("<div style='margin-bottom: 24px;' id='chat-container'>", unsafe_allow_html=True)
-    
+
     messages = get_history_manager().get_messages(st.session_state.current_session_id) if st.session_state.current_session_id else []
     for msg in messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
-            
+            # Show subtle model attribution on assistant messages
+            if msg["role"] == "assistant":
+                attr_model = msg.get("model", "")
+                if attr_model and attr_model in CHAT_MODEL_LABELS:
+                    a_icon, _, a_label, _ = CHAT_MODEL_LABELS[attr_model]
+                    st.markdown(
+                        f"<div class='nx-msg-model'>{a_icon} {a_label}</div>",
+                        unsafe_allow_html=True
+                    )
+
+    # ── File upload ──────────────────────────────────────────────────────────
     with st.expander("Attached File / Upload Reference", expanded=False):
         uploaded_file = st.file_uploader("Upload File", type=["csv", "pdf", "txt", "md", "json", "png", "jpg", "jpeg"], label_visibility="collapsed")
         if not uploaded_file and st.session_state.current_session_id:
@@ -419,25 +535,27 @@ elif page == "General Chat":
             if doc_meta and os.path.exists(doc_meta["file_path"]):
                 uploaded_file = MockUploadedFile(doc_meta["file_path"], doc_meta["filename"])
                 st.markdown(f"<div style='color: var(--text-muted); font-size: 0.85rem;'>Loaded from history: {doc_meta['filename']}</div>", unsafe_allow_html=True)
-                
+
+    # ── Chat input ───────────────────────────────────────────────────────────
     query = st.chat_input("Ask a question, request code, or ask about a file...")
     if query:
         if not st.session_state.current_session_id:
             st.session_state.current_session_id = get_history_manager().create_session("General Chat")
             title_context = uploaded_file.name if uploaded_file else query
             get_history_manager().generate_title(st.session_state.current_session_id, "General Chat", query, title_context, get_llm())
-            
+
             if uploaded_file and not isinstance(uploaded_file, MockUploadedFile):
                 uploaded_file.seek(0)
                 get_history_manager().link_document(st.session_state.current_session_id, uploaded_file.name, uploaded_file.read())
                 uploaded_file.seek(0)
-                
+
         get_history_manager().add_message(st.session_state.current_session_id, "user", query, "General Chat")
         with st.chat_message("user"):
             st.markdown(query)
-            
+
         with st.chat_message("assistant"):
-            with st.spinner("Processing locally..."):
+            with st.spinner(f"Processing with {sel_label}..."):
+                # Build file context (unchanged logic)
                 file_context = ""
                 if uploaded_file:
                     uploaded_file.seek(0)
@@ -461,19 +579,36 @@ elif page == "General Chat":
                             file_context = f"[Attached Image: {uploaded_file.name}]\nAnalysis: {res['text']}"
                     except Exception as e:
                         file_context = f"[Attached File Error: Could not read {uploaded_file.name} - {str(e)}]"
-                
-                final_answer = get_llm().generate(
+
+                # Generate response using the selected model
+                llm_instance = get_llm()
+                if not hasattr(llm_instance, "generate_with_model"):
+                    st.cache_resource.clear()
+                    st.rerun()
+                    
+                final_answer = llm_instance.generate_with_model(
                     prompt=query,
-                    context=file_context,
-                    default_category="GENERAL",
-                    history=messages
+                    model_name=selected_model_id,
+                    context=file_context if file_context else None,
+                    history=messages,
                 )
-                
+
             st.markdown(final_answer)
-            get_history_manager().add_message(st.session_state.current_session_id, "assistant", final_answer, "General Chat")
+            # Subtle model attribution
+            st.markdown(
+                f"<div class='nx-msg-model'>{sel_icon} {sel_label}</div>",
+                unsafe_allow_html=True
+            )
+
+            # Save to history (include model metadata in a non-breaking way)
+            get_history_manager().add_message(
+                st.session_state.current_session_id, "assistant", final_answer, "General Chat", model=selected_model_id
+            )
             st.rerun()
-            
+
     st.markdown("</div>", unsafe_allow_html=True)
+
+
 
 elif page == "Documents":
     st.markdown(f"""

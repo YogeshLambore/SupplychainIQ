@@ -9,6 +9,45 @@ OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_URL = f"{OLLAMA_HOST}/api/generate"
 OLLAMA_TAGS_URL = f"{OLLAMA_HOST}/api/tags"
 
+# ─── Multi-model chat configuration ──────────────────────────────────────────
+CHAT_MODELS = {
+    "⚡ Fast":          "qwen3.5:4b",
+    "👨‍💻 Coding":       "qwen2.5-coder:3b",
+    "🧠 Deep Reasoning": "llama3:8b",
+}
+
+CHAT_MODEL_LABELS = {
+    "qwen3.5:4b":       ("⚡", "Fast",          "Qwen3.5 4B",          "General questions and quick answers"),
+    "qwen2.5-coder:3b": ("👨‍💻", "Coding",        "Qwen2.5-Coder 3B",    "Programming and software engineering"),
+    "llama3:8b":        ("🧠", "Deep Reasoning", "Llama 3 8B",          "Complex reasoning and detailed analysis"),
+}
+
+CHAT_SYSTEM_PROMPTS = {
+    "qwen3.5:4b": (
+        "You are NEXORA Fast, a concise local AI assistant. "
+        "Answer accurately and directly. "
+        "Prefer clear explanations and avoid unnecessary verbosity. "
+        "Do not expose internal reasoning or hidden chain-of-thought. "
+        "When the user requests detailed reasoning, inform them they can switch to Deep Reasoning mode."
+    ),
+    "qwen2.5-coder:3b": (
+        "You are NEXORA Coding, a local software engineering assistant. "
+        "Focus on correct, practical, maintainable code. "
+        "Explain important implementation decisions briefly. "
+        "When useful, provide complete runnable code. "
+        "Consider edge cases and algorithmic complexity. "
+        "Do not expose hidden chain-of-thought. "
+        "ALWAYS wrap code in markdown code blocks with the correct language tag."
+    ),
+    "llama3:8b": (
+        "You are the local language model used by NEXORA. "
+        "You are a helpful, professional, general-purpose local AI conversation interface and coding assistant. "
+        "You can answer general questions, write complex Python code, and analyze provided context. "
+        "When providing code, ALWAYS wrap it in markdown code blocks."
+    ),
+}
+
+
 class LLMManager:
     """Manages LLM invocation and fallbacks using local Ollama."""
     
@@ -31,7 +70,89 @@ class LLMManager:
         
     def get_status(self):
         return "READY" if self.is_loaded else "FALLBACK"
-        
+
+    def is_model_available(self, model_name: str) -> bool:
+        """Check if a specific Ollama model is installed locally. Does not affect self.is_loaded."""
+        try:
+            response = requests.get(OLLAMA_TAGS_URL, timeout=2)
+            if response.status_code == 200:
+                data = response.json()
+                models = [m['name'] for m in data.get('models', [])]
+                return model_name in models
+        except Exception:
+            pass
+        return False
+
+    @staticmethod
+    def _strip_thinking(text: str) -> str:
+        """Remove <think>...</think> blocks that some local models emit internally."""
+        import re as _re
+        # Strip complete think blocks (including multiline)
+        cleaned = _re.sub(r'<think>.*?</think>', '', text, flags=_re.DOTALL)
+        # Also strip any unclosed <think> block at the start (model cut off mid-thought)
+        cleaned = _re.sub(r'^<think>.*', '', cleaned, flags=_re.DOTALL)
+        return cleaned.strip()
+
+    def generate_with_model(
+        self,
+        prompt: str,
+        model_name: str,
+        context: str = None,
+        history: list = None,
+    ) -> str:
+        """
+        Send a chat request to a specific local Ollama model.
+        Uses mode-specific system prompts from CHAT_SYSTEM_PROMPTS.
+        Strips internal thinking tokens before returning.
+        Falls back to deterministic response if Ollama is unreachable.
+        """
+        # Availability guard
+        if not self.is_model_available(model_name):
+            return (
+                f"⚠️ **Selected local model `{model_name}` is not installed.**\n\n"
+                "Please install it using Ollama before using this mode.\n\n"
+                "Local AI engine must be running and the model must be downloaded."
+            )
+
+        system_prompt = CHAT_SYSTEM_PROMPTS.get(model_name, CHAT_SYSTEM_PROMPTS["llama3:8b"])
+
+        full_prompt = f"SYSTEM INSTRUCTIONS\n{system_prompt}\n\n"
+
+        if context:
+            full_prompt += f"SOURCE CONTEXT\n{context}\n\n"
+
+        if history:
+            full_prompt += "CONVERSATION HISTORY\n"
+            for msg in history:
+                role_str = "User" if msg.get("role") == "user" else "Assistant"
+                full_prompt += f"{role_str}: {msg.get('content', '')}\n"
+            full_prompt += "\n"
+
+        full_prompt += f"USER QUESTION\n{prompt}\n"
+
+        payload = {
+            "model": model_name,
+            "prompt": full_prompt,
+            "stream": False,
+            "options": {"temperature": 0.1},
+        }
+
+        try:
+            response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+            if response.status_code == 200:
+                raw = response.json().get("response", "").strip()
+                return self._strip_thinking(raw)
+            else:
+                return f"⚠️ **Local AI engine returned an error** (HTTP {response.status_code}). Please verify Ollama is running."
+        except requests.exceptions.ConnectionError:
+            return "⚠️ **Local AI engine is unavailable.** Please verify that Ollama is running."
+        except requests.exceptions.Timeout:
+            return "⚠️ **Request timed out.** The model may be loading — please try again."
+        except Exception as e:
+            print(f"generate_with_model error: {e}")
+            return "⚠️ **An error occurred during inference.** Please check Ollama status."
+
+
     def route_task(self, query: str, default_category: str) -> str:
         query_lower = query.lower()
         if "nexora" in query_lower or "what is" in query_lower and "nexora" in query_lower:

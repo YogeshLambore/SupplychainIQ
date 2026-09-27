@@ -1,0 +1,15 @@
+# NEXORA Deployment Audit
+
+- **Current entry point:** `app.py` [READY]
+- **Python version:** `Python 3.10.1` [READY]
+- **Dependencies:** `streamlit`, `pandas`, `matplotlib`, `pymupdf`, `pillow`, `psutil`, `scikit-learn`, `sentence-transformers`, `numpy`, `requests`, `chromadb`, `opencv-python-headless`. Includes garbled characters in `requirements.txt`. [NEEDS FIX]
+- **Ollama dependency:** Handled via HTTP API. [READY]
+- **Model list:** `qwen3.5:4b`, `qwen2.5-coder:3b`, `llama3:8b`, `moondream` [READY]
+- **Storage paths:** `data/chroma/`, `data/uploads/`, `./data/uploads/` [READY]
+- **Ports:** Currently default 8501 (Streamlit), 11434 (Ollama) [READY]
+- **Security risks:** `app.py` uses some absolute or relative paths without explicit directory traversal checks for uploaded file retrieval. The code saves files directly to `./data/uploads/`. [NEEDS FIX]
+- **Public exposure risks:** Streamlit defaults to `0.0.0.0` unless configured otherwise. [NEEDS FIX]
+- **Upload risks:** Existing upload limits exist but file types are enforced by Streamlit. [READY]
+- **Docker sandbox status:** No explicit Docker sandbox code found in the project root/source. [NOT TESTED]
+- **Existing tests:** `test_ocr_integration.py` (Passes 14/14), `test_engine.py`, `test_adaptive_engineering.py`, `test_hitl_hardening.py` [READY]
+- **Deployment blockers:** Garbled `requirements.txt`, missing explicit Docker sandbox for execution isolation (or it's just not implemented yet), and need to bind Streamlit to `127.0.0.1`. [BLOCKER]

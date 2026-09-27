@@ -56,3 +56,26 @@ Desktop.ini
 
 # Vercel
 .vercel/
+
+*.key
+*.pem
+*.secret
+logs/
+*.log
+cache/
+uploads/
+temp/
+tmp/
+chroma_db/
+*.db
+*.sqlite
+generated_artifacts/
+model/
+ollama/
+personal_data/
+secrets/
+
+
+data/chroma/
+data/uploads/
+
