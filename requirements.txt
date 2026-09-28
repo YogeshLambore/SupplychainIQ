@@ -11,4 +11,6 @@ requests
 chromadb==0.5.9
 opencv-python-headless
 rapidocr-onnxruntime
+tabulate
+
 
