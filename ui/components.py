@@ -125,8 +125,6 @@ def render_history_sidebar(history_manager, current_session_id):
                     "General Chat": "General Chat",
                     "Documents": "Documents",
                     "Finance": "Finance",
-                    "Engineering": "Engineering",
-                    "Sovereignty": "Sovereignty"
                 }
                 if selected_ws in nav_map:
                     st.session_state.nav_selection = nav_map[selected_ws]
