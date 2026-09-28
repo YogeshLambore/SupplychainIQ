@@ -1,167 +1,164 @@
 /* =========================================================
-   NEXORA — Google AI Studio-style Sidebar Theme
-   VISUAL ONLY — zero functional changes
+   NEXORA — Sovereign On-Premise AI Operations Workbench
+   Dark Enterprise Command Center Theme
    ========================================================= */
 
-/* ── Font ──────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ── Design Tokens ─────────────────────────────────────── */
+/* ── Enterprise Design Tokens ──────────────────────────── */
 :root {
-    /* Core background scale — mirrors AI Studio's near-black surface */
-    --bg-primary:        #0E0F12;
-    --bg-secondary:      #131519;  /* sidebar base */
-    --bg-card:           #1A1C22;
-    --bg-card-hover:     #23262D;
-
-    /* Nav-item state surfaces */
-    --nav-hover-bg:      #26282C;  /* AI Studio: very subtle warm-gray */
-    --nav-active-bg:     #2D3035;  /* pill fill for active item */
-    --nav-active-accent: rgba(167,139,250,.15); /* tinted variant */
+    /* Sovereign Dark Palette */
+    --bg-page:           #070B14;  /* Deep Navy Page Background */
+    --bg-surface:        #0D1422;  /* Navy Surface for Sidebar & Rails */
+    --bg-card:           #111B2E;  /* Card Surface */
+    --bg-card-hover:     #16223B;  /* Card Hover State */
+    --bg-elevated:       #17233A;  /* Elevated Panels & Inputs */
+    --bg-overlay:        rgba(7, 11, 20, 0.85);
 
     /* Borders */
-    --border-subtle:     #2B2E36;
-    --border-active:     #3E4350;
+    --border-subtle:     #26344D;  /* Standard Border */
+    --border-active:     #3B82F6;  /* Primary Blue Border */
+    --border-highlight:  #60A5FA;  /* Bright Blue Accent */
+    --border-muted:      rgba(38, 52, 77, 0.5);
 
-    /* Accent */
-    --accent-primary:    #A78BFA;  /* violet — unchanged */
+    /* Brand & Accent */
+    --primary-blue:      #3B82F6;
+    --bright-blue:       #60A5FA;
+    --accent-glow:       rgba(59, 130, 246, 0.18);
+    --accent-violet:     #8B5CF6;
+    --accent-cyan:       #06B6D4;
 
-    /* Text */
-    --text-primary:      #F3F4F6;
-    --text-nav-default:  #C4C7C5;  /* AI Studio nav label color */
-    --text-nav-hover:    #F5F5F5;
+    /* Typography */
+    --text-primary:      #F8FAFC;  /* High-contrast Title/Body */
+    --text-secondary:    #94A3B8;  /* Subtitles & Descriptions */
+    --text-muted:        #64748B;  /* Captions & Metadata */
+    --text-nav-default:  #94A3B8;
+    --text-nav-hover:    #F8FAFC;
     --text-nav-active:   #FFFFFF;
-    --text-muted:        #9CA3AF;
-    --text-subtle:       #8A8F98;  /* section label color per spec */
 
-    /* Status */
-    --warning-amber:     #F59E0B;
-    --error-red:         #EF4444;
-    --success-green:     #10B981;
+    /* Semantic Status */
+    --success:           #22C55E;
+    --success-bg:        rgba(34, 197, 94, 0.12);
+    --success-border:    rgba(34, 197, 94, 0.28);
+    --warning:           #F59E0B;
+    --warning-bg:        rgba(245, 158, 11, 0.12);
+    --warning-border:    rgba(245, 158, 11, 0.28);
+    --critical:          #EF4444;
+    --critical-bg:       rgba(239, 68, 68, 0.12);
+    --critical-border:   rgba(239, 68, 68, 0.28);
+    --info:              #38BDF8;
+    --info-bg:           rgba(56, 189, 248, 0.12);
+    --info-border:       rgba(56, 189, 248, 0.28);
 
-    /* Sidebar geometry */
-    --sidebar-h-pad:     14px;
-    --nav-item-radius:   20px;     /* pill shape */
+    /* Geometry & Spacing */
+    --radius-sm:         6px;
+    --radius-md:         10px;
+    --radius-lg:         14px;
+    --radius-xl:         18px;
     --nav-item-height:   40px;
-    --nav-icon-size:     18px;
-    --nav-gap:           4px;      /* gap between nav items */
 }
 
-/* ── Global Typography & Background ────────────────────── */
+/* ── Global Typography & Base Application ──────────────── */
 .stApp {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'Google Sans', 'Inter', -apple-system, BlinkMacSystemFont,
-                 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-page) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+}
+
+/* Main Container spacing */
+.main .block-container {
+    padding-top: 1.5rem !important;
+    padding-bottom: 3.5rem !important;
+    max-width: 1380px !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary) !important;
-    font-family: 'Google Sans', 'Inter', sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-family: 'Google Sans', 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+}
+
+p, span, label {
+    color: var(--text-secondary);
+}
+
+code, pre {
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* ── Scrollbars ────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
 }
 
 /* ── Sidebar Shell ─────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background-color: var(--bg-secondary) !important;
-    border-right: 1px solid var(--border-subtle);
+    background-color: var(--bg-surface) !important;
+    border-right: 1px solid var(--border-subtle) !important;
     padding: 0 !important;
 }
 
-/* Override Streamlit's injected padding on the inner content wrapper */
 [data-testid="stSidebar"] > div:first-child {
     padding-top: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
-/* Default sidebar text color */
 [data-testid="stSidebar"] * {
-    color: var(--text-muted);
+    color: var(--text-secondary);
 }
+
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 {
     color: var(--text-primary) !important;
 }
 
-/* ── SECTION LABEL (WORKSPACES / HISTORY headings) ──────
-   Spec: uppercase 11px, #8A8F98, letter-spacing 1px     */
-[data-testid="stSidebar"] p[style*="text-transform: uppercase"],
-[data-testid="stSidebar"] div[style*="text-transform: uppercase"] {
-    font-family: 'Google Sans', 'Inter', sans-serif !important;
-    letter-spacing: 1px !important;
-}
-
-/* =========================================================
-   NEW WORKSPACE BUTTON — ghost / outline-free pill style
-   Targets the FIRST st.button in the sidebar (render_sidebar)
-   ========================================================= */
+/* ── New Workspace Button ──────────────────────────────── */
 [data-testid="stSidebar"] .stButton > button {
     height: var(--nav-item-height);
     width: 100%;
-    background-color: rgba(167,139,250,.08) !important;
-    border: 1px solid rgba(167,139,250,.25) !important;
-    border-radius: var(--nav-item-radius) !important;
-    color: var(--accent-primary) !important;
-    font-family: 'Google Sans', 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    background: rgba(59, 130, 246, 0.08) !important;
+    border: 1px solid rgba(59, 130, 246, 0.28) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--bright-blue) !important;
+    font-family: 'Google Sans', 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
     padding: 0 16px !important;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    box-shadow: none !important;
-    transition: background-color 0.18s ease, border-color 0.18s ease;
-    margin-bottom: 4px;
-    cursor: pointer;
-}
-[data-testid="stSidebar"] .stButton > button:hover {
-    background-color: rgba(167,139,250,.14) !important;
-    border-color: rgba(167,139,250,.45) !important;
-    color: var(--accent-primary) !important;
-}
-[data-testid="stSidebar"] .stButton > button:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-/* Force inner wrapper left-alignment — Streamlit injects a div between button and p */
-[data-testid="stSidebar"] .stButton > button > div {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    width: 100% !important;
+    box-shadow: none !important;
+    transition: all 0.18s ease-in-out !important;
+    margin-bottom: 8px !important;
+    cursor: pointer !important;
 }
 
-/* Plus icon before "New Workspace" */
-[data-testid="stSidebar"] .stButton > button > div > p::before {
-    content: "";
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 7px;
-    margin-bottom: -2px;
-    background-color: currentColor;
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='16'/%3E%3Cline x1='8' y1='12' x2='16' y2='12'/%3E%3C/svg%3E");
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: rgba(59, 130, 246, 0.16) !important;
+    border-color: var(--bright-blue) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 12px var(--accent-glow) !important;
 }
 
-/* =========================================================
-   MAIN NAV ITEMS — pill-shaped, icon + label
-   Selectors target buttons adjacent to #nav-btn-marker-N divs
-   All on_click / key attributes are UNTOUCHED.
-   ========================================================= */
-
-/* Reset Streamlit's default button chrome for all 6 nav items */
+/* ── Navigation Items in Sidebar ───────────────────────── */
 div:has(> [id^="nav-btn-marker-"]) + div button {
-    /* Layout */
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
@@ -169,320 +166,490 @@ div:has(> [id^="nav-btn-marker-"]) + div button {
     height: var(--nav-item-height) !important;
     min-height: var(--nav-item-height) !important;
     padding: 0 14px !important;
-    margin-bottom: var(--nav-gap) !important;
-    border-radius: var(--nav-item-radius) !important;
-
-    /* Appearance: default = transparent / borderless */
+    margin-bottom: 4px !important;
+    border-radius: var(--radius-md) !important;
     background-color: transparent !important;
-    border: none !important;
+    border: 1px solid transparent !important;
     box-shadow: none !important;
     outline: none !important;
-
-    /* Typography */
     color: var(--text-nav-default) !important;
     font-family: 'Google Sans', 'Inter', sans-serif !important;
-    font-size: 14px !important;
+    font-size: 13.5px !important;
     font-weight: 500 !important;
-    letter-spacing: 0.01em !important;
     text-align: left !important;
-
-    transition: background-color 0.15s ease, color 0.15s ease;
-    cursor: pointer;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
 }
 
-/* Hover state — subtle warm-gray fill */
 div:has(> [id^="nav-btn-marker-"]) + div button:hover {
-    background-color: var(--nav-hover-bg) !important;
+    background-color: var(--bg-elevated) !important;
     color: var(--text-nav-hover) !important;
-    border: none !important;
-    box-shadow: none !important;
-    transform: none !important;
+    border-color: var(--border-subtle) !important;
 }
 
-/* Active / selected state — tinted pill */
-div:has(> [id^="nav-btn-marker-"]) + div button[kind="primary"] {
-    background-color: var(--nav-active-bg) !important;
-    border: none !important;
-    box-shadow: none !important;
-    color: var(--text-nav-active) !important;
-}
-div:has(> [id^="nav-btn-marker-"]) + div button[kind="primary"] > div > p {
+/* Active Nav Button */
+div:has(> [id^="nav-btn-marker-"]) + div button[kind="primary"],
+div:has(> [id^="nav-btn-marker-"]) + div button[data-testid="baseButton-primary"] {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--primary-blue) !important;
+    color: #FFFFFF !important;
     font-weight: 600 !important;
-    color: var(--text-nav-active) !important;
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.18) !important;
 }
 
-/* Remove focus ring artifact */
-div:has(> [id^="nav-btn-marker-"]) + div button:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-/* ── Streamlit inner div wrapper — force left alignment ──
-   Streamlit renders: button > div > p
-   The div defaults to flex/center; override it here.          */
-div:has(> [id^="nav-btn-marker-"]) + div button > div {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    width: 100% !important;
-    text-align: left !important;
-}
-
-/* ── Icon + Label layout inside the nav button <p> ────────── */
-div:has(> [id^="nav-btn-marker-"]) + div button > div > p {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 12px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 14px !important;
-    font-weight: inherit !important;
-    color: inherit !important;
-    width: 100% !important;
-    text-align: left !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-}
-
-/* Icons are now rendered as emoji in the button label string (Approach A).
-   No ::before pseudo-element rules needed for nav items. */
-
-/* =========================================================
-   HISTORY SESSION BUTTONS — smaller, muted flat style
-   Keeps exact same on_click/key attributes untouched.
-   ========================================================= */
-[data-testid="stSidebar"] [data-testid="stVerticalBlock"] .stButton > button {
-    height: 34px !important;
-    border-radius: 8px !important;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    color: var(--text-muted) !important;
-    font-size: 12.5px !important;
-    font-weight: 400 !important;
-    padding: 0 10px !important;
-    justify-content: flex-start !important;
-    text-align: left !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    transition: background-color 0.12s ease, color 0.12s ease;
-}
-[data-testid="stSidebar"] [data-testid="stVerticalBlock"] .stButton > button:hover {
-    background-color: var(--nav-hover-bg) !important;
-    color: var(--text-primary) !important;
-}
-[data-testid="stSidebar"] [data-testid="stVerticalBlock"] .stButton > button[kind="primary"] {
-    background-color: var(--nav-active-bg) !important;
-    color: var(--text-nav-active) !important;
-    font-weight: 500 !important;
-}
-
-/* Kill the + icon on history buttons (only New Workspace needs it) */
-[data-testid="stSidebar"] [data-testid="stVerticalBlock"] .stButton > button > div > p::before {
-    display: none !important;
-}
-
-/* =========================================================
-   MAIN WORKSPACE CENTERING
-   ========================================================= */
-.block-container {
-    max-width: 950px !important;
-    padding-top: 3rem !important;
-    padding-bottom: 8rem !important;
-}
-
-/* =========================================================
-   PREMIUM CARDS / CONTAINERS
-   ========================================================= */
-.nexora-card {
-    background-color: var(--bg-card);
+/* ── Top Header & Global Brand ─────────────────────────── */
+.nx-header-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: var(--radius-lg);
     margin-bottom: 24px;
+}
+
+.nx-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nx-brand-title {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.8px;
+    line-height: 1;
+    margin: 0;
+}
+
+.nx-brand-subtitle {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--bright-blue);
+    margin-top: 3px;
+}
+
+.nx-header-telemetry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nx-status-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.online { background-color: var(--success); box-shadow: 0 0 6px var(--success); }
+.status-dot.warning { background-color: var(--warning); box-shadow: 0 0 6px var(--warning); }
+.status-dot.offline { background-color: var(--critical); box-shadow: 0 0 6px var(--critical); }
+.status-dot.info { background-color: var(--info); box-shadow: 0 0 6px var(--info); }
+
+/* ── Hero / Overview Command Center ────────────────────── */
+.nx-hero-banner {
+    background: linear-gradient(135deg, #0D1422 0%, #111B2E 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nx-hero-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100%;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.nx-hero-title {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+}
+
+.nx-hero-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 680px;
+    line-height: 1.6;
+}
+
+/* ── Live System Telemetry Cards Grid ──────────────────── */
+.nx-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
     transition: all 0.2s ease;
-    cursor: pointer;
-    text-decoration: none;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
 }
-.nexora-card:hover {
-    background-color: var(--bg-card-hover);
+
+.nx-stat-card:hover {
     border-color: var(--border-active);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
-/* =========================================================
-   STATUS DOT
-   ========================================================= */
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: currentColor;
-    display: inline-block;
-    box-shadow: 0 0 8px currentColor;
-    opacity: 0.8;
-}
-
-/* =========================================================
-   EXPANDERS
-   ========================================================= */
-[data-testid="stExpander"] {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: 14px;
-    margin-bottom: 16px;
-    overflow: hidden;
-}
-[data-testid="stExpander"] > div[role="button"] {
-    background-color: transparent !important;
-    padding: 16px 20px;
-}
-[data-testid="stExpander"] > div[role="button"]:hover {
-    background-color: var(--bg-card-hover) !important;
-}
-
-/* =========================================================
-   CHAT MESSAGES
-   ========================================================= */
-.stChatMessage {
-    background-color: transparent !important;
-    border: none !important;
-    padding: 1.5rem 0 !important;
-}
-.stChatMessage[data-testid="stChatMessage"]:nth-child(even) {
-    background-color: var(--bg-card) !important;
-    border-radius: 16px;
-    border: 1px solid var(--border-subtle) !important;
-    padding: 1.5rem !important;
-}
-
-/* =========================================================
-   FLOATING CHAT INPUT
-   ========================================================= */
-[data-testid="stChatInput"] {
-    background-color: var(--bg-card) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 20px !important;
-    padding: 8px;
-    transition: border-color 0.2s ease;
-}
-[data-testid="stChatInput"]:focus-within {
-    border-color: var(--accent-primary) !important;
-}
-[data-testid="stChatInput"] textarea {
-    color: var(--text-primary) !important;
-    font-size: 1rem;
-}
-
-/* =========================================================
-   STATUS INDICATORS
-   ========================================================= */
-.status-green  { color: var(--success-green); font-weight: 500; }
-.status-amber  { color: var(--warning-amber); font-weight: 500; }
-.status-red    { color: var(--error-red);     font-weight: 500; }
-.status-muted  { color: var(--text-muted);    font-weight: 500; }
-
-/* =========================================================
-   STATUS PILLS
-   ========================================================= */
-.status-pill {
-    background-color: rgba(167,139,250,.1);
-    color: var(--accent-primary);
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 0.75rem;
+.nx-stat-label {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(167,139,250,.2);
     text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
 }
 
-/* =========================================================
-   MONOSPACE / TRACE LOG
-   ========================================================= */
-code, .trace-log, .tech-mono {
-    font-family: 'Fira Code', 'Courier New', monospace;
-}
-code {
-    background-color: var(--bg-card-hover) !important;
-    color: var(--text-primary) !important;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.85em;
-    border: 1px solid var(--border-subtle);
-}
-.trace-log {
-    background-color: var(--bg-card) !important;
-    color: var(--text-muted) !important;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border-subtle);
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.85em;
-}
-
-/* =========================================================
-   VIDEO
-   ========================================================= */
-[data-testid="stVideo"] {
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    overflow: hidden;
-    background-color: var(--bg-secondary);
-}
-
-/* =========================================================
-   MAIN CONTENT BUTTONS (non-sidebar)
-   ========================================================= */
-.stButton > button {
-    background-color: var(--bg-card);
+.nx-stat-value {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--text-primary);
-    border: 1px solid var(--border-subtle);
-    border-radius: 10px;
-    padding: 8px 20px;
-    font-weight: 500;
-    transition: all 0.15s ease-in-out;
-}
-.stButton > button:hover {
-    background-color: rgba(255,255,255,.05);
-    border-color: var(--border-active);
-    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
-/* =========================================================
-   FILE UPLOADER
-   ========================================================= */
-[data-testid="stFileUploader"] {
-    background-color: var(--bg-card);
-    border: 1px dashed var(--border-subtle);
-    border-radius: 16px;
-    padding: 24px;
+.nx-stat-subtext {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ── Workspace Cards (Home Grid) ───────────────────────── */
+.nx-card-body {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-bottom: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 22px 22px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    min-height: 170px;
     transition: all 0.2s ease;
 }
-[data-testid="stFileUploader"]:hover {
-    border-color: var(--accent-primary);
-    background-color: var(--bg-card-hover);
+
+.nx-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
 }
 
-/* =========================================================
-   METRICS
-   ========================================================= */
-[data-testid="stMetricValue"] {
+.nx-badge svg {
+    width: 22px;
+    height: 22px;
+}
+
+.nx-badge-doc  { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); }
+.nx-badge-doc  svg { stroke: #60A5FA; }
+
+.nx-badge-fin  { background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); }
+.nx-badge-fin  svg { stroke: #A78BFA; }
+
+.nx-badge-eng  { background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); }
+.nx-badge-eng  svg { stroke: #22D3EE; }
+
+.nx-badge-sov  { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); }
+.nx-badge-sov  svg { stroke: #4ADE80; }
+
+.nx-card-title {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+}
+
+.nx-card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Button Attached to Card Bottom */
+div[data-testid="column"] .stButton > button {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+    padding: 12px 20px !important;
+    height: 48px !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    color: var(--text-secondary) !important;
+    font-family: 'Google Sans', 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+}
+
+div[data-testid="column"] .stButton > button:hover {
+    background: var(--bg-elevated) !important;
+    border-color: var(--border-active) !important;
+    color: #FFFFFF !important;
+}
+
+div[data-testid="column"] .stButton {
+    margin-top: -16px !important;
+}
+
+/* ── Zero-Hallucination & Verification Banners ─────────── */
+.nx-verification-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+}
+
+.nx-verification-title {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nx-verification-details {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ── Preview & Evidence Containers ─────────────────────── */
+.nx-preview-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.nx-preview-header {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Grounded Citations */
+.nx-citation-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--primary-blue);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+
+.nx-citation-page {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bright-blue);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nx-citation-text {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+/* ── Chat Messages & AI Assistant Styling ──────────────── */
+.stChatMessage {
+    background-color: transparent !important;
+    padding: 12px 0 !important;
+    border: none !important;
+}
+
+[data-testid="stChatMessageUser"] {
+    background-color: var(--bg-elevated) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 16px !important;
+    margin-bottom: 12px !important;
+}
+
+[data-testid="stChatMessageAssistant"] {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 18px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
+}
+
+.nx-msg-model {
+    font-family: 'Google Sans', 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Chat Input Bar */
+.stChatInputContainer {
+    background: var(--bg-surface) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    padding: 12px 0 !important;
+}
+
+.stChatInput textarea {
+    background: var(--bg-elevated) !important;
+    border: 1px solid var(--border-subtle) !important;
     color: var(--text-primary) !important;
-    font-size: 2rem !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 14px !important;
+}
+
+.stChatInput textarea:focus {
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 0 10px rgba(59,130,246,0.25) !important;
+}
+
+/* ── Standard Streamlit Controls Styling ───────────────── */
+.stButton button[kind="secondary"] {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md) !important;
     font-weight: 500 !important;
 }
-[data-testid="stMetricLabel"] {
-    color: var(--text-muted) !important;
-    font-weight: 500 !important;
-    font-size: 0.85rem !important;
+
+.stButton button[kind="secondary"]:hover {
+    background: var(--bg-elevated) !important;
+    border-color: var(--border-active) !important;
+    color: #FFFFFF !important;
 }
+
+.stButton button[kind="primary"] {
+    background: var(--primary-blue) !important;
+    border: 1px solid var(--primary-blue) !important;
+    color: #FFFFFF !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.35) !important;
+}
+
+.stButton button[kind="primary"]:hover {
+    background: #2563EB !important;
+    border-color: #2563EB !important;
+}
+
+/* File Uploader */
+[data-testid="stFileUploader"] {
+    background: var(--bg-card) !important;
+    border: 1px dashed var(--border-subtle) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 16px !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: var(--primary-blue) !important;
+    background: var(--bg-elevated) !important;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+.streamlit-expanderContent {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-top: none !important;
+    border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+    padding: 14px !important;
+}
+
+/* Dataframe */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    overflow: hidden !important;
+}
+
+/* Audit Log Items */
+.trace-log {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    padding: 8px 12px;
+    background: #0A0F1D;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+}
+
+.status-green { color: var(--success); font-weight: 600; }
+.status-amber { color: var(--warning); font-weight: 600; }
+.status-red   { color: var(--critical); font-weight: 600; }
