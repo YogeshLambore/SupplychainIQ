@@ -1,14 +1,14 @@
-# NEXORA
+﻿# SupplyChain AI
 
 **Live Demo:** <FINAL_PUBLIC_URL>
 **GitHub:** <REPOSITORY_URL>
 **Demo Video:** <VIDEO_URL>
 **Documentation:** <DOCUMENTATION_URL>
-# NEXORA
+# SupplyChain AI
 
 **Sovereign on-premise agentic AI workbench for confidential industrial work.**
 
-NEXORA is a fully local, offline AI intelligence workbench designed for engineering, finance, and document analysis. It successfully bridges the gap between natural language AI interactions and deterministic data analysis without relying on any external cloud APIs.
+SupplyChain AI is a fully local, offline AI intelligence workbench designed for engineering, finance, and document analysis. It successfully bridges the gap between natural language AI interactions and deterministic data analysis without relying on any external cloud APIs.
 
 ## Key Features
 * **Document Intelligence:** Local RAG (Retrieval-Augmented Generation) over PDFs with source citations and visual page previews.
@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Ollama Setup
-NEXORA requires a local instance of [Ollama](https://ollama.com/) to run the Llama 3 model.
+SupplyChain AI requires a local instance of [Ollama](https://ollama.com/) to run the Llama 3 model.
 1. Download and install Ollama.
 2. Pull the required model:
 ```bash
@@ -43,7 +43,7 @@ ollama run llama3:8b
 ```
 3. Ensure Ollama is running in the background (default port `11434`).
 
-### 3. Run NEXORA
+### 3. Run SupplyChain AI
 ```bash
 streamlit run app.py
 ```
@@ -51,7 +51,7 @@ streamlit run app.py
 ## Cloud Deployment Limitations
 
 **IMPORTANT: Vercel / Cloud Serverless Limitations**
-NEXORA is designed as an *on-premise* AI workbench. It relies on a local instance of Ollama and heavily stateful Python data analysis libraries.
+SupplyChain AI is designed as an *on-premise* AI workbench. It relies on a local instance of Ollama and heavily stateful Python data analysis libraries.
 
 If you attempt to deploy this Streamlit application directly to serverless platforms like **Vercel**, you will face structural limitations:
 1. Vercel serverless functions have hard timeouts that interrupt Streamlit's WebSocket connections.
@@ -64,5 +64,5 @@ To enable the AI capabilities in the cloud, you must:
 1. Expose your local Ollama server securely (e.g. using Ngrok) and set the `OLLAMA_HOST` environment variable on Streamlit Cloud to point to your secure tunnel URL.
 2. OR, replace the Ollama integration with a cloud API for demonstration purposes.
 
-If `OLLAMA_HOST` is unreachable, NEXORA will gracefully degrade to its **Fallback Behavior**, utilizing deterministic text extraction and Pandas math without LLM explanations, ensuring the app remains usable.
+If `OLLAMA_HOST` is unreachable, SupplyChain AI will gracefully degrade to its **Fallback Behavior**, utilizing deterministic text extraction and Pandas math without LLM explanations, ensuring the app remains usable.
 

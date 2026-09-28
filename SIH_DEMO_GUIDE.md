@@ -1,4 +1,4 @@
-# NEXORA — SIH 2026
+﻿# SupplyChain AI — SIH 2026
 
 **Live Prototype:** `<FINAL_PUBLIC_URL>`
 

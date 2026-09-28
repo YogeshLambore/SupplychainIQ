@@ -1,5 +1,5 @@
 """
-NEXORA Engineering Analyzer — HITL/Visual Failure Hardening Tests
+SupplyChain AI Engineering Analyzer — HITL/Visual Failure Hardening Tests
 Tests A through H as specified in the requirements.
 Uses mocks so tests run independently of Ollama availability.
 """

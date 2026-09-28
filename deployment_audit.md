@@ -1,4 +1,4 @@
-# NEXORA Deployment Audit
+﻿# SupplyChain AI Deployment Audit
 
 - **Current entry point:** `app.py` [READY]
 - **Python version:** `Python 3.10.1` [READY]

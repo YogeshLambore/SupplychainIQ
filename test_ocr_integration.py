@@ -1,5 +1,5 @@
 """
-NEXORA — Local OCR Health Check + Full Integration Tests (Phases 21 & 22)
+SupplyChain AI — Local OCR Health Check + Full Integration Tests (Phases 21 & 22)
 Tests cover OCR standalone, Moondream+OCR fusion, and all failure scenarios.
 All tests use deterministic mocks — Ollama not required.
 """

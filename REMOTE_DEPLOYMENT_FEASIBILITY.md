@@ -1,7 +1,7 @@
-# NEXORA - Remote SIH Deployment Feasibility Audit
+﻿# SupplyChain AI - Remote SIH Deployment Feasibility Audit
 
 ## EXECUTIVE SUMMARY
-Deploying NEXORA to a remote server so your laptop can remain OFF is **technically feasible but requires a paid cloud server**. The primary blocker for "free" hosting is the substantial RAM (16GB) and Disk (30GB) requirement needed to host Ollama and its models. Current free-tier cloud platforms (like AWS Free Tier, Render, Railway) do not offer sufficient memory. A low-cost GPU cloud instance (like RunPod or DigitalOcean) is the recommended path for a lag-free demonstration.
+Deploying SupplyChain AI to a remote server so your laptop can remain OFF is **technically feasible but requires a paid cloud server**. The primary blocker for "free" hosting is the substantial RAM (16GB) and Disk (30GB) requirement needed to host Ollama and its models. Current free-tier cloud platforms (like AWS Free Tier, Render, Railway) do not offer sufficient memory. A low-cost GPU cloud instance (like RunPod or DigitalOcean) is the recommended path for a lag-free demonstration.
 
 ## CURRENT ARCHITECTURE
 - **Streamlit entry point:** `app.py`
@@ -46,20 +46,20 @@ The application currently orchestrates four local models via Ollama.
 ## DEPLOYMENT OPTIONS
 
 **OPTION A: Streamlit-only cloud hosting (e.g., Streamlit Community Cloud)**
-- **Can current NEXORA run?** NO.
+- **Can current SupplyChain AI run?** NO.
 - **Why?** It cannot host Ollama. You would have to expose your laptop's Ollama publicly using Ngrok and point the cloud app to it, meaning your laptop must stay ON.
 
 **OPTION B: Cloud VM + Streamlit + Ollama (CPU Only)**
-- **Can current NEXORA run?** YES.
+- **Can current SupplyChain AI run?** YES.
 - **Trade-offs:** Cheapest standalone option (e.g., DigitalOcean $12-$24/mo droplet). However, LLM inference will be noticeably slow because it lacks a GPU.
 
 **OPTION C: Cloud GPU VM + Streamlit + Ollama**
-- **Can current NEXORA run?** YES.
+- **Can current SupplyChain AI run?** YES.
 - **Trade-offs:** Requires a provider like RunPod, AWS EC2, or vast.ai. Extremely fast, perfect SIH experience. Laptop can be OFF. Costs roughly ~$0.20 to $0.50 per hour while running.
 
-**OPTION D: Containerized NEXORA + Remote Inference**
-- **Can current NEXORA run?** YES (with `Dockerfile`).
-- **Trade-offs:** Highest complexity. Requires packaging NEXORA into a Docker image and writing a `docker-compose.yml` to spin up both Streamlit and Ollama containers simultaneously.
+**OPTION D: Containerized SupplyChain AI + Remote Inference**
+- **Can current SupplyChain AI run?** YES (with `Dockerfile`).
+- **Trade-offs:** Highest complexity. Requires packaging SupplyChain AI into a Docker image and writing a `docker-compose.yml` to spin up both Streamlit and Ollama containers simultaneously.
 
 ## FREE/LOW-COST OPTIONS
 - **Hugging Face Spaces (Docker):** FREE BUT INSUFFICIENT. (Free tier is CPU-only, installing Ollama + Streamlit inside a single HF Docker container is fragile and slow).
@@ -69,7 +69,7 @@ The application currently orchestrates four local models via Ollama.
 - **DigitalOcean / Hetzner:** PAID (~$15/mo). Standard CPU VMs. 
 
 ## SECURITY REQUIREMENTS
-If hosted remotely, anyone with the URL can access NEXORA. 
+If hosted remotely, anyone with the URL can access SupplyChain AI. 
 - **Authentication:** Currently absent. Anyone can upload files.
 - **Ollama API:** Must be bound to `localhost` inside the cloud VM so the public cannot hijack your inference engine.
 

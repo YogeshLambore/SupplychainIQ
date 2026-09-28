@@ -1,13 +1,13 @@
-@echo off
+﻿@echo off
 echo =========================================
-echo NEXORA SIH 2026 STARTUP SCRIPT
+echo SUPPLYCHAIN AI SIH 2026 STARTUP SCRIPT
 echo =========================================
 
 echo.
 echo [1/3] Verifying Ollama...
 ollama list >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Ollama is not running! Please start Ollama before launching NEXORA.
+    echo [ERROR] Ollama is not running! Please start Ollama before launching SUPPLYCHAIN AI.
     pause
     exit /b 1
 )

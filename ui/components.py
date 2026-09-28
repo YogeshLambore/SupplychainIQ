@@ -191,7 +191,7 @@ def render_header(llm_status="READY", vision_status="READY"):
                 {ICONS['shield_check']}
             </div>
             <div>
-                <div class="nx-brand-title">NEXORA WORKBENCH</div>
+                <div class="nx-brand-title">SUPPLYCHAIN AI</div>
                 <div class="nx-brand-subtitle">Confidential Industrial Intelligence</div>
             </div>
         </div>

@@ -160,7 +160,7 @@ if page == "Home":
                     SOVEREIGN ON-PREMISE AI OPERATIONS
                 </span>
             </div>
-            <h1 class="nx-hero-title">NEXORA Command Center</h1>
+            <h1 class="nx-hero-title">SupplyChain AI Command Center</h1>
             <p class="nx-hero-desc">
                 Confidential industrial AI intelligence workbench. Analyze proprietary documents, deterministic financial records, 
                 and engineering P&ID diagrams locally with zero external API dependencies.
@@ -866,7 +866,7 @@ elif page == "Finance":
                         st.download_button(
                             label="⬇️ Download Visual Report (PNG)",
                             data=f,
-                            file_name=f"nexora_{summary_info['chart_type']}.png",
+                            file_name=f"SupplyChain AI_{summary_info['chart_type']}.png",
                             mime="image/png",
                             use_container_width=True,
                             key=f"dl_{chart_path}"

@@ -24,14 +24,14 @@ CHAT_MODEL_LABELS = {
 
 CHAT_SYSTEM_PROMPTS = {
     "qwen3.5:4b": (
-        "You are NEXORA Fast, a concise local AI assistant. "
+        "You are SupplyChain AI Fast, a concise local AI assistant. "
         "Answer accurately and directly. "
         "Prefer clear explanations and avoid unnecessary verbosity. "
         "Do not expose internal reasoning or hidden chain-of-thought. "
         "When the user requests detailed reasoning, inform them they can switch to Deep Reasoning mode."
     ),
     "qwen2.5-coder:3b": (
-        "You are NEXORA Coding, a local software engineering assistant. "
+        "You are SupplyChain AI Coding, a local software engineering assistant. "
         "Focus on correct, practical, maintainable code. "
         "Explain important implementation decisions briefly. "
         "When useful, provide complete runnable code. "
@@ -40,7 +40,7 @@ CHAT_SYSTEM_PROMPTS = {
         "ALWAYS wrap code in markdown code blocks with the correct language tag."
     ),
     "llama3:8b": (
-        "You are the local language model used by NEXORA. "
+        "You are the local language model used by SupplyChain AI. "
         "You are a helpful, professional, general-purpose local AI conversation interface and coding assistant. "
         "You can answer general questions, write complex Python code, and analyze provided context. "
         "When providing code, ALWAYS wrap it in markdown code blocks."
@@ -155,7 +155,7 @@ class LLMManager:
 
     def route_task(self, query: str, default_category: str) -> str:
         query_lower = query.lower()
-        if "nexora" in query_lower or "what is" in query_lower and "nexora" in query_lower:
+        if "SupplyChain AI" in query_lower or "what is" in query_lower and "SupplyChain AI" in query_lower:
             return "GENERAL"
         return default_category
         
@@ -229,15 +229,15 @@ class LLMManager:
             try:
                 if category == "GENERAL":
                     system_prompt = (
-                        "You are the local language model used by NEXORA. "
+                        "You are the local language model used by SupplyChain AI. "
                         "You are a helpful, professional, general-purpose local AI conversation interface and coding assistant. "
                         "You can answer general questions, write complex Python code, and analyze provided context. "
                         "When providing code, ALWAYS wrap it in markdown code blocks."
                     )
                 else:
                     system_prompt = (
-                        "You are the local language model used by NEXORA. "
-                        "NEXORA is an offline/on-premise AI workbench for confidential industrial work. "
+                        "You are the local language model used by SupplyChain AI. "
+                        "SupplyChain AI is an offline/on-premise AI workbench for confidential industrial work. "
                         "It uses local open-weight AI models and supports controlled workflows. "
                         "Follow only the provided context. Do not invent facts. "
                         "Do not claim unavailable information. Explain clearly and concisely. "
@@ -247,7 +247,7 @@ class LLMManager:
                 full_prompt = f"SYSTEM INSTRUCTIONS\n{system_prompt}\n\n"
                 
                 if category == "GENERAL":
-                    full_prompt += "CONTEXT\nNEXORA is a sovereign on-premise agentic AI workbench. It processes documents, data, and engineering files securely and locally without external APIs.\n\n"
+                    full_prompt += "CONTEXT\nSupplyChain AI is a sovereign on-premise agentic AI workbench. It processes documents, data, and engineering files securely and locally without external APIs.\n\n"
                 
                 if context:
                     full_prompt += f"SOURCE CONTEXT\n{context}\n\n"
@@ -314,7 +314,7 @@ class LLMManager:
     def _deterministic_fallback(self, prompt: str, context: str) -> str:
         """Provides a deterministic answer when the local LLM is missing."""
         prompt_lower = prompt.lower()
-        fallback_msg = "Local Llama is unavailable. NEXORA is using the existing local processing path.\n\n"
+        fallback_msg = "Local Llama is unavailable. SupplyChain AI is using the existing local processing path.\n\n"
         
         if not context:
             return f"{fallback_msg}Could not generate deterministic response without context."

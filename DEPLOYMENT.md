@@ -1,7 +1,7 @@
-# NEXORA - SIH 2026 Production Deployment Guide
+﻿# SupplyChain AI - SIH 2026 Production Deployment Guide
 
 ## 1. Architecture
-NEXORA runs completely locally on the Windows host. External SIH judges will connect via a secure HTTPS Cloudflare Tunnel.
+SupplyChain AI runs completely locally on the Windows host. External SIH judges will connect via a secure HTTPS Cloudflare Tunnel.
 `SIH Judge -> HTTPS -> Cloudflare Tunnel -> Windows Host -> 127.0.0.1:8501 (Streamlit) -> Local Ollama`
 
 ## 2. Hardware
@@ -35,7 +35,7 @@ ollama pull llama3:8b
 ollama pull moondream:1.8b
 ```
 
-## 7. NEXORA Startup
+## 7. SupplyChain AI Startup
 Launch the application bound strictly to localhost (do NOT use 0.0.0.0):
 ```powershell
 .\.venv\Scripts\Activate.ps1
@@ -58,9 +58,9 @@ cloudflared tunnel --url http://127.0.0.1:8501
 For the final SIH presentation, authenticate and create a permanent named tunnel:
 ```powershell
 cloudflared tunnel login
-cloudflared tunnel create nexora-sih
-cloudflared tunnel route dns nexora-sih nexora.<YOUR_DOMAIN.COM>
-cloudflared tunnel run nexora-sih
+cloudflared tunnel create SupplyChain AI-sih
+cloudflared tunnel route dns SupplyChain AI-sih SupplyChain AI.<YOUR_DOMAIN.COM>
+cloudflared tunnel run SupplyChain AI-sih
 ```
 
 ## 12. Custom Domain

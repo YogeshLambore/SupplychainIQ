@@ -1,5 +1,5 @@
 """
-NEXORA Finance Visualization Engine
+SupplyChain AI Finance Visualization Engine
 ====================================
 DatasetProfiler  -> Pandas schema analysis
 IntentParser     -> Llama JSON plan + deterministic fallback

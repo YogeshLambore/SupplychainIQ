@@ -9,10 +9,10 @@ class HistoryManager:
         os.makedirs(persist_directory, exist_ok=True)
         try:
             self.client = chromadb.PersistentClient(path=persist_directory)
-            self.sessions = self.client.get_or_create_collection(name="nexora_sessions")
-            self.messages = self.client.get_or_create_collection(name="nexora_messages")
-            self.documents = self.client.get_or_create_collection(name="nexora_documents")
-            self.analysis = self.client.get_or_create_collection(name="nexora_analysis")
+            self.sessions = self.client.get_or_create_collection(name="SupplyChain AI_sessions")
+            self.messages = self.client.get_or_create_collection(name="SupplyChain AI_messages")
+            self.documents = self.client.get_or_create_collection(name="SupplyChain AI_documents")
+            self.analysis = self.client.get_or_create_collection(name="SupplyChain AI_analysis")
             self.is_connected = True
         except Exception as e:
             print(f"Error initializing ChromaDB: {e}")

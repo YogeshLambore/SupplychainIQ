@@ -22,7 +22,7 @@ class MockVision:
         return "Observed pump P-101 connecting to boundary."
 
 def test_adaptive_real_image():
-    img_path = r"E:\Nexora prototype\data\uploads\sess_20260916_204723_6a207b_diagram.jpg"
+    img_path = r"E:\SupplyChain AI prototype\data\uploads\sess_20260916_204723_6a207b_diagram.jpg"
     if not os.path.exists(img_path):
         print("Real image not found")
         return

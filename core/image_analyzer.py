@@ -45,7 +45,7 @@ class ImageAnalyzer:
                 base64_img = base64.b64encode(img_byte_arr.getvalue()).decode('utf-8')
                 
                 system_prompt = (
-                    "You are the local vision analyzer for NEXORA. "
+                    "You are the local vision analyzer for SupplyChain AI. "
                     "Analyze this engineering diagram carefully. "
                     "Do not invent components, process conditions, or safety ratings. "
                     "If something is unclear, simply say it is not clearly visible. "
@@ -111,7 +111,7 @@ class ImageAnalyzer:
             return "Vision model unavailable."
         
         system_prompt = custom_system_prompt or (
-            "You are the local vision analyzer for NEXORA. "
+            "You are the local vision analyzer for SupplyChain AI. "
             "Analyze this engineering diagram carefully. "
             "Do not invent components, process conditions, or safety ratings. "
             "If something is unclear, simply say it is not clearly visible."

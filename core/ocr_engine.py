@@ -1,5 +1,5 @@
 """
-NEXORA — Local OCR Engine
+SupplyChain AI — Local OCR Engine
 Uses RapidOCR (ONNX Runtime) — fully offline, no Tesseract binary needed.
 """
 import io

@@ -13,7 +13,7 @@ for _dir in [DATA_DIR, DEMO_DIR, MODELS_DIR, OUTPUTS_DIR]:
     _dir.mkdir(parents=True, exist_ok=True)
 
 # Application Config
-APP_NAME = "NEXORA"
+APP_NAME = "SupplyChain AI"
 APP_SUBTITLE = "SOVEREIGN AI WORKBENCH"
 APP_VERSION = "0.1.0-prototype"
 
